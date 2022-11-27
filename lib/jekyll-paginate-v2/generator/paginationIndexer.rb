@@ -96,6 +96,7 @@ module Jekyll
         # Now for all filter values for the config key, let's remove all items from the posts that
         # aren't common for all collections that the user wants to filter on
         posts = [] if should_union
+        posts = [] if should_negate
 
         config_value.each do |key|
           key = key.to_s.downcase.strip
