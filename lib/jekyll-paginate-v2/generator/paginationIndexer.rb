@@ -100,6 +100,11 @@ module Jekyll
 
         config_value.each do |key|
           key = key.to_s.downcase.strip
+          next if key == 'enabled'
+          next if key == 'debug'
+          next if key == 'combine'
+          next if key == 'negate'
+
           if should_negate == true
             my_source_posts = source_posts.delete(key)
             puts "Should negate" + should_negate.to_s
