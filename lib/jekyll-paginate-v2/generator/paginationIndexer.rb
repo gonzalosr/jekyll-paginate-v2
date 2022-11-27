@@ -100,7 +100,7 @@ module Jekyll
         config_value.each do |key|
           key = key.to_s.downcase.strip
           if should_negate == true
-            my_source_posts = source_posts.except(key)
+            my_source_posts = source_posts.delete(key)
             puts "Should negate" + should_negate.to_s
             puts "Key[NEGATE]: ".rjust(20) + key.to_s  
             puts "source_posts: ".rjust(20) + my_source_posts.to_s  
