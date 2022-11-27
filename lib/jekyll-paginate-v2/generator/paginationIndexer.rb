@@ -78,7 +78,7 @@ module Jekyll
       # Filters posts based on a keyed source_posts hash of indexed posts and performs a intersection of 
       # the two sets. Returns only posts that are common between all collections 
       #
-      def self.read_config_value_and_filter_posts(config, config_key, posts, source_posts, should_union = false)
+      def self.read_config_value_and_filter_posts(config, config_key, posts, source_posts, should_union = false, should_negate = false)
         return nil if posts.nil?
         return nil if source_posts.nil? # If the source is empty then simply don't do anything
         return posts if config.nil?
@@ -99,10 +99,15 @@ module Jekyll
 
         config_value.each do |key|
           key = key.to_s.downcase.strip
+          if should_negate
+            my_source_posts = source_posts - [key]
+          else
+            my_source_posts = source_posts[key]
+          end
           posts = if should_union
-             PaginationIndexer.union_arrays(posts, source_posts[key])
+             PaginationIndexer.union_arrays(posts, my_source_posts, should_negate)
            else
-             PaginationIndexer.intersect_arrays(posts, source_posts[key])
+             PaginationIndexer.intersect_arrays(posts, my_source_posts, should_negate)
            end        
         end
 
