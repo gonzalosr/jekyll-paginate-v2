@@ -215,7 +215,7 @@ module Jekyll
         using_posts = all_posts
 
         should_union = config['combine'] == 'union'
-        should_negate = config['negate'] == 'true'
+        should_negate = config['negate'] == true
         
         # Now start filtering out any posts that the user doesn't want included in the pagination
         before = using_posts.size.to_i
