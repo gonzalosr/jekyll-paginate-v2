@@ -218,17 +218,26 @@ module Jekyll
         should_negate = config['negate'] == true
         
         # Now start filtering out any posts that the user doesn't want included in the pagination
-        before = using_posts.size.to_i
-        using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'category', using_posts, all_categories, should_union, should_negate)
-        self._debug_print_filtering_info('Category', before, using_posts.size.to_i)
-        before = using_posts.size.to_i
-        using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'tag', using_posts, all_tags, should_union, should_negate)
-        self._debug_print_filtering_info('Tag', before, using_posts.size.to_i)
-        before = using_posts.size.to_i
-        using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'locale', using_posts, all_locales, should_union, should_negate)
-        self._debug_print_filtering_info('Locale', before, using_posts.size.to_i)
-        using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'author', using_posts, all_authors, should_union, should_negate)
-        self._debug_print_filtering_info('Author', before, using_posts.size.to_i)
+        if config['category']
+          before = using_posts.size.to_i
+          using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'category', using_posts, all_categories, should_union, should_negate)
+          self._debug_print_filtering_info('Category', before, using_posts.size.to_i)
+        end
+        if config['tag']
+          before = using_posts.size.to_i
+          using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'tag', using_posts, all_tags, should_union, should_negate)
+          self._debug_print_filtering_info('Tag', before, using_posts.size.to_i)
+        end
+        if config['locale']
+          before = using_posts.size.to_i
+          using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'locale', using_posts, all_locales, should_union, should_negate)
+          self._debug_print_filtering_info('Locale', before, using_posts.size.to_i)
+        end
+        if config['author']
+          before = using_posts.size.to_i
+          using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'author', using_posts, all_authors, should_union, should_negate)
+          self._debug_print_filtering_info('Author', before, using_posts.size.to_i)
+        end
 
         # Apply sorting to the posts if configured, any field for the post is available for sorting
         if config['sort_field']
