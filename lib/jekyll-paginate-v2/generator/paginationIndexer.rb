@@ -96,25 +96,21 @@ module Jekyll
         # Now for all filter values for the config key, let's remove all items from the posts that
         # aren't common for all collections that the user wants to filter on
         posts = [] if should_union
-        posts = [] if should_negate
+        puts "Config key:" + config_key.to_s
+        puts "Config values:" + config_value.to_s
 
         config_value.each do |key|
           key = key.to_s.downcase.strip
-          next if key == 'enabled'
-          next if key == 'debug'
-          next if key == 'combine'
-          next if key == 'negate'
-
           if should_negate == true
             my_source_posts = source_posts.delete(key)
             puts "Should negate" + should_negate.to_s
             puts "Key[NEGATE]: ".rjust(20) + key.to_s  
-            puts "source_posts: ".rjust(20) + my_source_posts.to_s  
+            # puts "source_posts: ".rjust(20) + my_source_posts.to_s  
           else
             my_source_posts = source_posts[key]
             puts "Should negate" + should_negate.to_s
             puts "Key: ".rjust(20) + key.to_s  
-            puts "source_posts: ".rjust(20) + my_source_posts.to_s  
+            # puts "source_posts: ".rjust(20) + my_source_posts.to_s  
           end
           posts = if should_union
              PaginationIndexer.union_arrays(posts, my_source_posts)
