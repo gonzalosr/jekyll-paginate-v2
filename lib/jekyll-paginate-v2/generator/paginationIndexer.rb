@@ -102,13 +102,21 @@ module Jekyll
           key = key.to_s.downcase.strip
           if should_negate
             my_source_posts = source_posts - [key]
+            if @debug
+              puts "Key: ".rjust(20) + key.to_s  
+              puts "source_posts: ".rjust(20) + my_source_posts.to_s  
+            end
           else
             my_source_posts = source_posts[key]
+            if @debug
+              puts "Key: ".rjust(20) + key.to_s  
+              puts "source_posts: ".rjust(20) + my_source_posts.to_s  
+            end
           end
           posts = if should_union
-             PaginationIndexer.union_arrays(posts, my_source_posts, should_negate)
+             PaginationIndexer.union_arrays(posts, source_posts[key], should_negate)
            else
-             PaginationIndexer.intersect_arrays(posts, my_source_posts, should_negate)
+             PaginationIndexer.intersect_arrays(posts, source_posts[key], should_negate)
            end        
         end
 
