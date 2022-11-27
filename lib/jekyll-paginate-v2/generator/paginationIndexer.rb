@@ -101,7 +101,7 @@ module Jekyll
           key = key.to_s.downcase.strip
           if should_negate
             my_source_posts = source_posts - [key]
-            puts "Key: ".rjust(20) + key.to_s  
+            puts "Key[NEGATE]: ".rjust(20) + key.to_s  
             puts "source_posts: ".rjust(20) + my_source_posts.to_s  
           else
             my_source_posts = source_posts[key]
