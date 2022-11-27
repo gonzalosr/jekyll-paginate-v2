@@ -162,7 +162,6 @@ module Jekyll
           puts f + "  Collection: ".ljust(r) + config['collection'].to_s
           puts f + "  Offset: ".ljust(r) + config['offset'].to_s
           puts f + " Combine: ".ljust(r) + config['combine'].to_s
-          puts f + " Negate: ".ljust(r) + config['negate'].to_s
           puts f + "  Category: ".ljust(r) + (config['category'].nil? || config['category'] == "posts" ? "[Not set]" : config['category'].to_s)
           puts f + "  Tag: ".ljust(r) + (config['tag'].nil? ? "[Not set]" : config['tag'].to_s)
           puts f + "  Locale: ".ljust(r) + (config['locale'].nil? ? "[Not set]" : config['locale'].to_s)
@@ -215,29 +214,24 @@ module Jekyll
         using_posts = all_posts
 
         should_union = config['combine'] == 'union'
-        should_negate = config['negate'] == true
-        
         # Now start filtering out any posts that the user doesn't want included in the pagination
-        if config['category']
-          before = using_posts.size.to_i
-          using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'category', using_posts, all_categories, should_union, should_negate)
-          self._debug_print_filtering_info('Category', before, using_posts.size.to_i)
-        end
-        if config['tag']
-          before = using_posts.size.to_i
-          using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'tag', using_posts, all_tags, should_union, should_negate)
-          self._debug_print_filtering_info('Tag', before, using_posts.size.to_i)
-        end
-        if config['locale']
-          before = using_posts.size.to_i
-          using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'locale', using_posts, all_locales, should_union, should_negate)
-          self._debug_print_filtering_info('Locale', before, using_posts.size.to_i)
-        end
-        if config['author']
-          before = using_posts.size.to_i
-          using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'author', using_posts, all_authors, should_union, should_negate)
-          self._debug_print_filtering_info('Author', before, using_posts.size.to_i)
-        end
+
+        before = using_posts.size.to_i
+        using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'category', using_posts, all_categories, should_union)
+        self._debug_print_filtering_info('Category', before, using_posts.size.to_i)
+
+        before = using_posts.size.to_i
+        using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'tag', using_posts, all_tags, should_union)
+        self._debug_print_filtering_info('Tag', before, using_posts.size.to_i)
+
+        before = using_posts.size.to_i
+        using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'locale', using_posts, all_locales, should_union)
+        self._debug_print_filtering_info('Locale', before, using_posts.size.to_i)
+
+        before = using_posts.size.to_i
+        using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'author', using_posts, all_authors, should_union)
+        self._debug_print_filtering_info('Author', before, using_posts.size.to_i)
+
 
         # Apply sorting to the posts if configured, any field for the post is available for sorting
         if config['sort_field']
