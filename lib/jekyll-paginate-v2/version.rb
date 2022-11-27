@@ -1,6 +1,6 @@
 module Jekyll
   module PaginateV2
-    VERSION = "3.0.0"
+    VERSION = "3.0.1"
     # When modifying remember to issue a new tag command in git before committing, then push the new tag
     #   git tag -a v3.0.0 -m "Gem v3.0.0"
     #   git push origin --tags
